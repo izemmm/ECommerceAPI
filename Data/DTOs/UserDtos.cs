@@ -15,3 +15,8 @@ namespace ECommerceAPI.DTOs
         public string Password { get; set; } = "12345";
     }
 }
+public class UserLoginDto
+{
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}

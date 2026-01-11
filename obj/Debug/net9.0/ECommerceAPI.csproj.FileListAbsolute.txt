@@ -145,3 +145,11 @@ C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\refint\ECommerceAPI.dll
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.pdb
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.genruntimeconfig.cache
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ref\ECommerceAPI.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\İZEM\ECommerceAPI\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

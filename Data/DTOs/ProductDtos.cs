@@ -22,11 +22,11 @@ namespace ECommerceAPI.DTOs
     // Güncelleme yaparken isteyeceğimiz veriler
     public class UpdateProductDto
    {
-        public string Name { get; set; } = "Örnek Ürün"; // Varsayılan isim
-        public decimal Price { get; set; } = 100;        // Varsayılan fiyat
-        public int Stock { get; set; } = 10;             // Varsayılan stok
+        public string Name { get; set; } = "Örnek Ürün";
+        public decimal Price { get; set; } = 100;        
+        public int Stock { get; set; } = 10;            
         
-        // İŞTE SİHİRLİ DOKUNUŞ BURADA:
-        public int CategoryId { get; set; } = 1;         // Artık 0 değil, 1 gelecek!
+        
+        public int CategoryId { get; set; } = 1;        
     }
 }

@@ -1,30 +1,18 @@
-# 🚀 ECommerceAPI - .NET 9 Backend Projesi
+# 🚀 E-Commerce API (.NET 9 Backend Projesi)
 
-Bu proje, İzem tarafından geliştirilmiş modern bir E-Ticaret REST API uygulamasıdır. **Katmanlı Mimari (Layered Architecture)** prensiplerine uygun olarak tasarlanmıştır.
+Bu proje, **İzem** tarafından geliştirilmiş, **.NET 9** ve **Entity Framework Core** teknolojileriyle güçlendirilmiş modern bir E-Ticaret REST API uygulamasıdır. Yazılım dünyasının kabul gördüğü **Clean Architecture** ve **N-Layer Architecture (Katmanlı Mimari)** prensiplerine sadık kalınarak tasarlanmıştır.
 
-## 🌟 Projenin Özellikleri (Bonuslar Dahil)
-
-* **🛠 Teknoloji:** .NET 9, Entity Framework Core, SQLite.
-* **🏗 Mimari:** Controller -> Service -> Data katmanları.
-* **📦 DTO Kullanımı:** Veriler güvenli bir şekilde taşınır.
-* **🗑 Soft Delete (+Bonus):** Veriler silinmez, çöp kutusuna taşınır (IsDeleted).
-* **🌱 Seed Data (+Bonus):** Proje açıldığında otomatik olarak örnek veriler yüklenir.
-* **📄 Standart Cevap:** Tüm API cevapları `{ success: true, data: ... }` formatındadır.
-
-## 🚀 Nasıl Çalıştırılır?
-
-1.  Projeyi indirin.
-2.  Terminali açıp şu komutu yazın:
-    ```bash
-    dotnet run
-    ```
-3.  Tarayıcıda şu adrese gidin:
-    `http://localhost:xxxx/swagger`
-
-## 🧪 Test Edebileceğiniz Özellikler
-
-* **GET /products:** Otomatik eklenen "Laptop" ve "Tişört" ürünlerini görebilirsiniz.
-* **DELETE /products/{id}:** Bir ürünü sildiğinizde veritabanından tamamen gitmediğini, sadece gizlendiğini görebilirsiniz.
+Amaç; ölçeklenebilir, test edilebilir ve sürdürülebilir bir backend altyapısı sunmaktır.
 
 ---
-**Geliştirici:** İzem
+
+## 🏗 Mimari Yapı (Architecture Diagram)
+
+Proje, "Separation of Concerns" (Sorumlulukların Ayrılması) ilkesine göre katmanlara ayrılmıştır. Veri akışı aşağıdaki diyagramda gösterildiği gibidir:
+
+```mermaid
+graph LR
+    Client[Client / Swagger] -->|HTTP Request| API(Presentation Layer - Controllers)
+    API -->|DTOs| Service(Business Layer - Services)
+    Service -->|Entities| Data(Data Access Layer - DbContext)
+    Data -->|SQL Queries| DB[(SQLite Database)]

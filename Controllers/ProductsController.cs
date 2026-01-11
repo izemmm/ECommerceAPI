@@ -9,9 +9,8 @@ namespace ECommerceAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IProductReviewService _reviewService; // YENİ EKLENDİ
+        private readonly IProductReviewService _reviewService;
 
-        // Constructor'da artık ReviewService de istiyoruz
         public ProductsController(IProductService productService, IProductReviewService reviewService)
         {
             _productService = productService;
@@ -33,19 +32,12 @@ namespace ECommerceAPI.Controllers
             return Ok(response);
         }
 
-        // ==================================================================
-        // 🎯 İSTENEN URL: /products/{id}/reviews
-        // Bir ürünün ID'sine göre yorumlarını getirir (Nested Resource)
-        // ==================================================================
         [HttpGet("{id}/reviews")]
         public async Task<ActionResult<ServiceResponse<List<ProductReviewDto>>>> GetProductReviews(int id)
         {
-            // Not: Service tarafında bu metodun adını varsayıyoruz. 
-            // Eğer IProductReviewService dosyasında metodun adı farklıysa (örn: GetReviewsByProductIdAsync) orayı düzeltiriz.
             var response = await _reviewService.GetReviewsByProductIdAsync(id);
             return Ok(response);
         }
-        // ==================================================================
 
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<ProductDto>>> CreateProduct(CreateProductDto request)
@@ -53,7 +45,12 @@ namespace ECommerceAPI.Controllers
             var response = await _productService.CreateProductAsync(request);
             if (!response.Success)
             {
-                 if (response.Message.Contains("zaten mevcut")) return Conflict(response);
+                 // 🛠️ UYARI BURADA ÇÖZÜLÜYOR:
+                 // Mesajın boş olmadığından emin oluyoruz, sonra içeriğine bakıyoruz.
+                 if (!string.IsNullOrEmpty(response.Message) && response.Message.Contains("zaten mevcut")) 
+                 {
+                     return Conflict(response);
+                 }
                  return BadRequest(response);
             }
             return CreatedAtAction(nameof(GetSingle), new { id = response.Data.Id }, response);
