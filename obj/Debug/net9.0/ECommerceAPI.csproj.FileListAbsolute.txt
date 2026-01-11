@@ -130,6 +130,7 @@ C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.AssemblyInfo.cs
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.csproj.CoreCompileInputs.cache
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\ECommerceAPI.sourcelink.json
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\İZEM\ECommerceAPI\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json

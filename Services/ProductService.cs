@@ -62,9 +62,29 @@ namespace ECommerceAPI.Services
             return response;
         }
 
+        // ==========================================
+        // GÜNCELLENEN METOD (KONTROLLER EKLENDİ)
+        // ==========================================
         public async Task<ServiceResponse<ProductDto>> CreateProductAsync(CreateProductDto productDto)
         {
             var response = new ServiceResponse<ProductDto>();
+
+            // 1. KONTROL: Fiyat negatif olamaz (400 Bad Request durumu için)
+            if (productDto.Price < 0)
+            {
+                response.Success = false;
+                response.Message = "Fiyat 0'dan küçük olamaz.";
+                return response;
+            }
+
+            // 2. KONTROL: Aynı isimde ürün var mı? (409 Conflict durumu için)
+            // Not: Silinmiş ürünlerin ismini tekrar kullanmaya izin verebiliriz, o yüzden !IsDeleted ekledik.
+            if (await _context.Products.AnyAsync(p => p.Name == productDto.Name && !p.IsDeleted))
+            {
+                response.Success = false;
+                response.Message = "Bu isimde bir ürün zaten mevcut.";
+                return response;
+            }
 
             var newProduct = new Product
             {
@@ -87,6 +107,7 @@ namespace ECommerceAPI.Services
             response.Message = "Ürün başarıyla oluşturuldu.";
             return response;
         }
+        // ==========================================
 
         public async Task<ServiceResponse<bool>> DeleteProductAsync(int id)
         {
@@ -109,6 +130,41 @@ namespace ECommerceAPI.Services
                 response.Data = true;
                 response.Message = "Ürün başarıyla kaldırıldı (Soft Delete).";
             }
+            return response;
+        }
+
+        public async Task<ServiceResponse<ProductDto>> UpdateProductAsync(int id, UpdateProductDto productDto)
+        {
+            var response = new ServiceResponse<ProductDto>();
+            
+            // Ürünü bul (Silinmemiş olanlardan)
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+
+            if (product == null)
+            {
+                response.Success = false;
+                response.Message = "Güncellenecek ürün bulunamadı.";
+                return response;
+            }
+
+            // Verileri Güncelle
+            product.Name = productDto.Name;
+            product.Price = productDto.Price;
+            product.Stock = productDto.Stock;
+            product.CategoryId = productDto.CategoryId;
+            product.UpdatedAt = DateTime.Now; // Güncellenme tarihini bas
+
+            await _context.SaveChangesAsync();
+
+            response.Data = new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                CategoryName = "Güncellendi" 
+            };
+            response.Message = "Ürün başarıyla güncellendi.";
             return response;
         }
     }

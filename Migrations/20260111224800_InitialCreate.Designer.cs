@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260109134436_InitialCreate")]
+    [Migration("20260111224800_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,6 +28,9 @@ namespace ECommerceAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -52,6 +55,9 @@ namespace ECommerceAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -85,6 +91,9 @@ namespace ECommerceAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
@@ -123,6 +132,9 @@ namespace ECommerceAPI.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
                         .IsRequired()
