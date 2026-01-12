@@ -3,9 +3,9 @@ using ECommerceAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using ECommerceAPI.DTOs;
 using ECommerceAPI; 
-using Microsoft.AspNetCore.Authentication.JwtBearer; // YENİ
-using Microsoft.IdentityModel.Tokens; // YENİ
-using System.Text; // YENİ
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +19,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 
-// ==========================================
-// 🔐 3. JWT AUTHENTICATION AYARLARI (YENİ)
-// ==========================================
+// 3. 🔐 JWT Ayarları
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -34,29 +32,34 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
-// ==========================================
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// 4. Swagger Yapılandırması (Çakışmayı önlemek için standart ayar)
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "ECommerce API", Version = "v1" });
+});
 
 var app = builder.Build();
 
+// 5. Global Exception Middleware
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce API v1"));
 }
 
 app.UseHttpsRedirection();
 
-// SIRALAMA ÖNEMLİ: Önce Kimlik Doğrulama (Authentication), Sonra Yetki (Authorization)
-app.UseAuthentication(); // 🔐 YENİ EKLENDİ
-app.UseAuthorization();
+// 6. Güvenlik Sıralaması
+app.UseAuthentication(); 
+app.UseAuthorization();  
 
-// Seed Data & Migration
+// 7. Seed Data ve Migration
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -64,54 +67,13 @@ using (var scope = app.Services.CreateScope())
     DataSeeder.Seed(context);
 }
 
-// ... (Minimal API Kodların Aynen Kalacak) ... 
-// (Yer kaplamasın diye burayı kısalttım, senin kodunda Minimal API'leri silme!)
-
-// Buraya Minimal API kodlarını yapıştırmayı unutma (Categories vs.)
-// Eğer sildiysen önceki mesajımdan alabilirsin.
-// Sadece yukarıdaki Authentication kısımlarını eklesen yeterli.
-
-// MINIMAL API KISIMLARI (Aynı kalıyor - Yer kaplamasın diye kısalttım ama senin kodunda duruyor)
+// 8. Minimal API (Token Korumalı)
 app.MapGet("/api/minimal/categories", async (AppDbContext context) => 
 {
     var categories = await context.Categories.Where(c => !c.IsDeleted).ToListAsync();
     var dtos = categories.Select(c => new CategoryDto { Id = c.Id, Name = c.Name }).ToList();
-    return Results.Ok(new ServiceResponse<List<CategoryDto>> { Data = dtos, Message = "Kategoriler listelendi." });
-}).WithTags("Minimal API (Categories)");
-
-app.MapPost("/api/minimal/categories", async (AppDbContext context, CreateCategoryDto request) => 
-{
-    var category = new Category { Name = request.Name };
-    context.Categories.Add(category);
-    await context.SaveChangesAsync();
-    return Results.Created($"/api/minimal/categories/{category.Id}", new ServiceResponse<CategoryDto> { Data = new CategoryDto { Id = category.Id, Name = category.Name }, Message = "Eklendi" });
-}).WithTags("Minimal API (Categories)");
-
-app.MapPut("/api/minimal/categories/{id}", async (AppDbContext context, int id, CategoryDto request) => 
-{
-    var category = await context.Categories.FindAsync(id);
-    if (category is null || category.IsDeleted) return Results.NotFound(new ServiceResponse<bool> { Success = false, Message = "Bulunamadı" });
-    category.Name = request.Name;
-    await context.SaveChangesAsync();
-    return Results.Ok(new ServiceResponse<bool> { Data = true, Message = "Güncellendi" });
-}).WithTags("Minimal API (Categories)");
-
-app.MapDelete("/api/minimal/categories/{id}", async (AppDbContext context, int id) => 
-{
-    var category = await context.Categories.FindAsync(id);
-    if (category is null || category.IsDeleted) return Results.NotFound(new ServiceResponse<bool> { Success = false, Message = "Bulunamadı" });
-    category.IsDeleted = true; 
-    await context.SaveChangesAsync();
-    return Results.Ok(new ServiceResponse<bool> { Data = true, Message = "Silindi" });
-}).WithTags("Minimal API (Categories)");
-
-app.MapGet("/api/test/auth", (HttpContext context) => 
-{
-    if (!context.Request.Headers.ContainsKey("Sifre")) return Results.Unauthorized(); 
-    return Results.Ok(new { message = "Giriş Başarılı" });
-}).WithTags("Status Code Tests");
-
-app.MapDelete("/api/test/nocontent", () => Results.NoContent()).WithTags("Status Code Tests");
+    return Results.Ok(new ServiceResponse<List<CategoryDto>> { Data = dtos, Message = "Listelendi" });
+}).WithTags("Minimal API").RequireAuthorization();
 
 app.MapControllers(); 
 app.Run();
