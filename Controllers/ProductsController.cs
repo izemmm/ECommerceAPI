@@ -46,9 +46,25 @@ namespace ECommerceAPI.Controllers
                  }
                  return BadRequest(response);
             }
-            return CreatedAtAction(nameof(GetSingle), new { id = response.Data.Id }, response);
+
+            // 🛠️ CS8602 uyarısı burada çözüldü: Data'dan sonra ? ekleyerek null-check yapıldı.
+            return CreatedAtAction(nameof(GetSingle), new { id = response.Data?.Id }, response);
         }
-        
-        // Diğer metodlar (Put, Delete) aynı şekilde kalıyor...
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ServiceResponse<ProductDto>>> UpdateProduct(int id, UpdateProductDto request)
+        {
+            var response = await _productService.UpdateProductAsync(id, request);
+            if (!response.Success) return NotFound(response);
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
+        {
+            var response = await _productService.DeleteProductAsync(id);
+            if (!response.Success) return NotFound(response);
+            return Ok(response);
+        }
     }
 }
