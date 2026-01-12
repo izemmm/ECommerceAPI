@@ -5,7 +5,7 @@ using ECommerceAPI.DTOs;
 namespace ECommerceAPI.Controllers
 {
     [ApiController]
-    [Route("users")] // 🎯 İSTENEN URL: /users
+    [Route("users")] 
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -15,14 +15,14 @@ namespace ECommerceAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet] // GET /users
+        [HttpGet] 
         public async Task<ActionResult<ServiceResponse<List<UserDto>>>> GetAll()
         {
             var response = await _userService.GetAllUsersAsync();
             return Ok(response);
         }
 
-        [HttpGet("{id}")] // GET /users/5
+        [HttpGet("{id}")] 
         public async Task<ActionResult<ServiceResponse<UserDto>>> GetSingle(int id)
         {
             var response = await _userService.GetUserByIdAsync(id);

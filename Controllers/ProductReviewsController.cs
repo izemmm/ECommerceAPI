@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ECommerceAPI.Services;
-using ECommerceAPI.DTOs; // DTO namespace'ini eklemeyi unutma
+using ECommerceAPI.DTOs; 
 
 namespace ECommerceAPI.Controllers
 {

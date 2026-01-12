@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ECommerceAPI.Services;
 using ECommerceAPI.DTOs;
-using Microsoft.AspNetCore.Authorization; //
+using Microsoft.AspNetCore.Authorization; 
 
 namespace ECommerceAPI.Controllers
 {
-    [Authorize] // 🔐 Bu controller'a erişim için token zorunludur
+    [Authorize] 
     [ApiController]
     [Route("products")]
     public class ProductsController : ControllerBase
@@ -47,7 +47,7 @@ namespace ECommerceAPI.Controllers
                  return BadRequest(response);
             }
 
-            // 🛠️ CS8602 uyarısı burada çözüldü: Data'dan sonra ? ekleyerek null-check yapıldı.
+
             return CreatedAtAction(nameof(GetSingle), new { id = response.Data?.Id }, response);
         }
 

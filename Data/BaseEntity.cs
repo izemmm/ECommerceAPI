@@ -6,7 +6,7 @@ namespace ECommerceAPI.Data
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
         
-        // BONUS: Soft Delete özelliği (Veritabanından silinmez, sadece gizlenir)
+
         public bool IsDeleted { get; set; } = false;
     }
 }

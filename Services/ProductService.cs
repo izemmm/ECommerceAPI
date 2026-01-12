@@ -17,7 +17,7 @@ namespace ECommerceAPI.Services
         {
             var response = new ServiceResponse<List<ProductDto>>();
             
-            // SADECE SILINMEMIS (!IsDeleted) OLANLARI GETIR
+            
             var products = await _context.Products
                 .Include(p => p.Category)
                 .Where(p => !p.IsDeleted) 
@@ -39,7 +39,7 @@ namespace ECommerceAPI.Services
         {
             var response = new ServiceResponse<ProductDto>();
             
-            // SILINMEMIS OLANLAR ICINDE ARA
+        
             var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
@@ -62,14 +62,12 @@ namespace ECommerceAPI.Services
             return response;
         }
 
-        // ==========================================
-        // GÜNCELLENEN METOD (KONTROLLER EKLENDİ)
-        // ==========================================
+        
         public async Task<ServiceResponse<ProductDto>> CreateProductAsync(CreateProductDto productDto)
         {
             var response = new ServiceResponse<ProductDto>();
 
-            // 1. KONTROL: Fiyat negatif olamaz (400 Bad Request durumu için)
+            
             if (productDto.Price < 0)
             {
                 response.Success = false;
@@ -77,8 +75,7 @@ namespace ECommerceAPI.Services
                 return response;
             }
 
-            // 2. KONTROL: Aynı isimde ürün var mı? (409 Conflict durumu için)
-            // Not: Silinmiş ürünlerin ismini tekrar kullanmaya izin verebiliriz, o yüzden !IsDeleted ekledik.
+        
             if (await _context.Products.AnyAsync(p => p.Name == productDto.Name && !p.IsDeleted))
             {
                 response.Success = false;
@@ -107,7 +104,7 @@ namespace ECommerceAPI.Services
             response.Message = "Ürün başarıyla oluşturuldu.";
             return response;
         }
-        // ==========================================
+        
 
         public async Task<ServiceResponse<bool>> DeleteProductAsync(int id)
         {
@@ -122,7 +119,7 @@ namespace ECommerceAPI.Services
             }
             else
             {
-                // BONUS: SOFT DELETE (IsDeleted = true yapıyoruz)
+                
                 product.IsDeleted = true;
                 product.UpdatedAt = DateTime.Now;
                 
@@ -137,7 +134,7 @@ namespace ECommerceAPI.Services
         {
             var response = new ServiceResponse<ProductDto>();
             
-            // Ürünü bul (Silinmemiş olanlardan)
+            
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
 
             if (product == null)
@@ -147,12 +144,12 @@ namespace ECommerceAPI.Services
                 return response;
             }
 
-            // Verileri Güncelle
+            
             product.Name = productDto.Name;
             product.Price = productDto.Price;
             product.Stock = productDto.Stock;
             product.CategoryId = productDto.CategoryId;
-            product.UpdatedAt = DateTime.Now; // Güncellenme tarihini bas
+            product.UpdatedAt = DateTime.Now; 
 
             await _context.SaveChangesAsync();
 

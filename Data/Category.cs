@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization; // <-- BU SATIR ÇOK ÖNEMLİ
+using System.Text.Json.Serialization; 
 
 namespace ECommerceAPI.Data
 {
@@ -6,8 +6,7 @@ namespace ECommerceAPI.Data
     {
         public string Name { get; set; } = string.Empty;
 
-        // İlişki: Bir kategorinin altında bir sürü ürün olabilir.
-        // [JsonIgnore] ekliyoruz ki verileri çekerken sonsuz döngüye girmesin.
+        
         [JsonIgnore] 
         public List<Product> Products { get; set; } = new();
     }

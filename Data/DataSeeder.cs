@@ -6,7 +6,7 @@ namespace ECommerceAPI.Data
     {
         public static void Seed(AppDbContext context)
         {
-            // Veritabanı boşsa kategori ekle
+            
             if (!context.Categories.Any())
             {
                 var categories = new List<Category>
@@ -18,7 +18,7 @@ namespace ECommerceAPI.Data
                 context.SaveChanges();
             }
 
-            // Veritabanı boşsa ürün ekle
+        
             if (!context.Products.Any())
             {
                 var elektronik = context.Categories.First(c => c.Name == "Elektronik");

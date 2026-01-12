@@ -1,6 +1,6 @@
 namespace ECommerceAPI.DTOs
 {
-    // Kullanıcıya ürün listelerken göndereceğimiz model
+    
     public class ProductDto
     {
         public int Id { get; set; }
@@ -10,7 +10,7 @@ namespace ECommerceAPI.DTOs
         public string CategoryName { get; set; } = string.Empty; 
     }
 
-    // Yeni ürün eklerken isteyeceğimiz veriler
+
     public class CreateProductDto
     {
         public string Name { get; set; } = string.Empty;
@@ -19,7 +19,7 @@ namespace ECommerceAPI.DTOs
         public int CategoryId { get; set; }
     }
 
-    // Güncelleme yaparken isteyeceğimiz veriler
+    
     public class UpdateProductDto
    {
         public string Name { get; set; } = "Örnek Ürün";

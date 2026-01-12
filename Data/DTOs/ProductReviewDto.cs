@@ -5,6 +5,6 @@ namespace ECommerceAPI.DTOs
         public int Id { get; set; }
         public string Comment { get; set; } = string.Empty;
         public int Rating { get; set; }
-        public string ReviewerName { get; set; } = string.Empty; // Yorumu yapan kişinin adı
+        public string ReviewerName { get; set; } = string.Empty; 
     }
 }

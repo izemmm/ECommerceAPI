@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization; // <-- UNUTMA
+using System.Text.Json.Serialization; 
 
 namespace ECommerceAPI.Data
 {
@@ -9,8 +9,8 @@ namespace ECommerceAPI.Data
         public string Password { get; set; } = string.Empty;
         public string Role { get; set; } = "User";
 
-        // İlişki: Bir kullanıcının çok yorumu olabilir
-        [JsonIgnore] // <-- FREN SİSTEMİ
+    
+        [JsonIgnore] 
         public List<ProductReview> Reviews { get; set; } = new();
     }
 }

@@ -9,7 +9,7 @@ namespace ECommerceAPI.Services
         Task<ServiceResponse<ProductDto>> CreateProductAsync(CreateProductDto productDto);
         Task<ServiceResponse<bool>> DeleteProductAsync(int id);
         
-        // EKSİK OLAN GÜNCELLEME METODU:
+        
         Task<ServiceResponse<ProductDto>> UpdateProductAsync(int id, UpdateProductDto productDto);
     }
 }

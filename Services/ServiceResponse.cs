@@ -1,6 +1,6 @@
 namespace ECommerceAPI.Services
 {
-    // Hocanın istediği standart cevap kalıbı
+    
     public class ServiceResponse<T>
     {
         public bool Success { get; set; } = true;

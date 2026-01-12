@@ -13,7 +13,7 @@ namespace ECommerceAPI.Services
             _context = context;
         }
 
-        // 1. Bir ürünün yorumlarını getir
+        
         public async Task<ServiceResponse<List<ProductReviewDto>>> GetReviewsByProductIdAsync(int productId)
         {
             var response = new ServiceResponse<List<ProductReviewDto>>();
@@ -26,14 +26,14 @@ namespace ECommerceAPI.Services
             {
                 Id = r.Id,
                 Comment = r.Comment,
-                Rating = r.StarCount, // ✅ DÜZELTİLDİ: Entity'deki isim StarCount
+                Rating = r.StarCount, 
                 ReviewerName = r.User != null ? r.User.FullName : "Anonim"
             }).ToList();
 
             return response;
         }
 
-        // 2. TÜM yorumları getir (GetAllAsync)
+        
         public async Task<ServiceResponse<List<ProductReviewDto>>> GetAllAsync()
         {
             var response = new ServiceResponse<List<ProductReviewDto>>();
@@ -46,7 +46,7 @@ namespace ECommerceAPI.Services
             {
                 Id = r.Id,
                 Comment = r.Comment,
-                Rating = r.StarCount, // ✅ DÜZELTİLDİ: Entity'deki isim StarCount
+                Rating = r.StarCount, 
                 ReviewerName = r.User != null ? r.User.FullName : "Anonim"
             }).ToList();
 

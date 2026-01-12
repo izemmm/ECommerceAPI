@@ -6,7 +6,7 @@ namespace ECommerceAPI.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // Tabloları veritabanına ekliyoruz
+
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -16,7 +16,7 @@ namespace ECommerceAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // İlişki Ayarı: Ürün silinirse yorumları da silinsin
+            
             modelBuilder.Entity<ProductReview>()
                 .HasOne(r => r.Product)
                 .WithMany(p => p.Reviews)

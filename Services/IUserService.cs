@@ -4,7 +4,7 @@ namespace ECommerceAPI.Services
 {
     public interface IUserService
     {
-        // Controller'ın çağıracağı isimler bunlardır:
+        
         Task<ServiceResponse<List<UserDto>>> GetAllUsersAsync();
         Task<ServiceResponse<UserDto>> GetUserByIdAsync(int id);
         

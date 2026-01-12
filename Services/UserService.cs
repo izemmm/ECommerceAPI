@@ -11,7 +11,7 @@ namespace ECommerceAPI.Services
     public class UserService : IUserService
     {
         private readonly AppDbContext _context;
-        private readonly IConfiguration _configuration; // Şifre anahtarını okumak için
+        private readonly IConfiguration _configuration; 
 
         public UserService(AppDbContext context, IConfiguration configuration)
         {
@@ -39,7 +39,7 @@ namespace ECommerceAPI.Services
         public async Task<ServiceResponse<UserDto>> CreateUserAsync(CreateUserDto userDto)
         {
             var response = new ServiceResponse<UserDto>();
-            // Not: Gerçek projelerde şifreler asla böyle saklanmaz, hashlenir! (Örn: BCrypt)
+    
             var user = new User { FullName = userDto.FullName, Email = userDto.Email, Password = userDto.Password, Role = "User" };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -48,17 +48,15 @@ namespace ECommerceAPI.Services
             return response;
         }
 
-        // ==========================================
-        // 🔥 YENİ EKLENEN LOGIN METODU
-        // ==========================================
+    
         public async Task<ServiceResponse<string>> LoginAsync(UserLoginDto request)
         {
             var response = new ServiceResponse<string>();
             
-            // 1. Kullanıcıyı bul
+            
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email && !u.IsDeleted);
 
-            // 2. Kullanıcı yoksa veya şifre yanlışsa hata ver
+            
             if (user == null || user.Password != request.Password)
             {
                 response.Success = false;
@@ -66,7 +64,7 @@ namespace ECommerceAPI.Services
                 return response;
             }
 
-            // 3. Token Oluştur (JWT)
+            
             string token = CreateToken(user);
 
             response.Data = token;
